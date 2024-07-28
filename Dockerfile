@@ -1,12 +1,7 @@
-# Dockerfile
+# Utiliser l'image de base Python
+FROM python:3.9-slim-buster
 
-# Utiliser une image Python officielle
-FROM python:3.9-slim
-
-# Définir le répertoire de travail
-WORKDIR /app
-
-# Installer pyenv
+# Mettre à jour les paquets et installer les dépendances nécessaires
 RUN apt-get update && apt-get install -y \
     build-essential \
     libssl-dev \
@@ -22,23 +17,35 @@ RUN apt-get update && apt-get install -y \
     tk-dev \
     libffi-dev \
     liblzma-dev && \
-    curl https://pyenv.run | bash
+    rm -rf /var/lib/apt/lists/*
 
-ENV PATH="/root/.pyenv/bin:/root/.pyenv/shims:${PATH}"
+# Installer pyenv
+ENV PYENV_ROOT /root/.pyenv
+ENV PATH $PYENV_ROOT/bin:$PATH
 
-# Installer Poetry
-RUN curl -sSL https://install.python-poetry.org | python3 -
+RUN curl https://pyenv.run | bash
 
-ENV PATH="$HOME/.poetry/bin:$PATH"
+# Ajouter pyenv à PATH
+ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 
-# Copier les fichiers de l'application dans le conteneur
-COPY . .
+# Installer Python avec pyenv
+RUN pyenv install 3.9.7
+RUN pyenv global 3.9.7
 
-# Installer les dépendances
-RUN poetry install --no-dev --no-interaction --no-ansi
+# Mettre à jour pip et installer les dépendances
+RUN pip install --upgrade pip
 
-# Exposer le port utilisé par Flask
-EXPOSE 8080
+# Copier le code dans le conteneur
+WORKDIR /app
+COPY . /app
 
-# Démarrer l'application Flask
-CMD ["poetry", "run", "python", "src/app.py"]
+# Installer les dépendances avec Poetry
+RUN pip install poetry
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-dev --no-interaction --no-ansi
+
+# Exposer le port de l'application
+EXPOSE 5000
+
+# Définir la commande par défaut
+CMD ["poetry", "run", "flask", "run", "--host=0.0.0.0"]
