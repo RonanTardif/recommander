@@ -16,7 +16,8 @@ RUN apt-get update && apt-get install -y \
     xz-utils \
     tk-dev \
     libffi-dev \
-    liblzma-dev && \
+    liblzma-dev \
+    git && \
     rm -rf /var/lib/apt/lists/*
 
 # Installer pyenv
