@@ -1,7 +1,5 @@
 
 ### 15. `.github/workflows/ci-cd.yml`
-
-```yaml
 # .github/workflows/ci-cd.yml
 
 name: CI/CD Pipeline
