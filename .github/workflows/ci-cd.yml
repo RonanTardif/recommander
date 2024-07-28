@@ -54,16 +54,16 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/recommender-service:latest .
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/recommender/recommender:latest .
 
       - name: Push Docker image
         run: |
-          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/recommender-service:latest
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/recommender/recommander:latest
 
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy recommender-service \
-            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/recommender-service:latest \
+            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/recommender/recommander:latest \
             --platform managed \
             --region ${{ secrets.GCP_REGION }} \
             --allow-unauthenticated
