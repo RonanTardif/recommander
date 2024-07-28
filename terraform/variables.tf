@@ -5,7 +5,9 @@ variable "project_id" {
   type        = string
 }
 
+
 variable "region" {
   description = "Google Cloud Region"
   type        = string
+  default     = "europe-west9"  # Région de Paris
 }
