@@ -8,9 +8,9 @@ authors = ["Your Name <your.email@example.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-Flask = "2.1.1"
+Flask = "2.2.2"  # Mise à jour de Flask vers une version compatible
 scikit-learn = "^1.0.2"
-werkzeug = "^3.0.3"
+werkzeug = "^2.2.2"  # Mise à jour de Werkzeug vers une version compatible
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.3"
